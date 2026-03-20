@@ -1,0 +1,14 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv
+got_parent_child_chroma
+got_parent_store
+got_knowledge_base_v2
+books/

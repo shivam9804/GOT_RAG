@@ -1,0 +1,10 @@
+fastapi[standard]
+langchain-ollama
+pandas
+pypdf
+langchain-chroma
+langchain-community
+pymupdf
+sentence-transformers
+transformers
+torch
