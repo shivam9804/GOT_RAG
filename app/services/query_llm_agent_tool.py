@@ -152,11 +152,6 @@ def invoke_agent(query: str) -> str:
     print(type(response))
     print(f"Agent Response: {response}")
 
-    # print("Response keys:", response.keys())
-    # print("Intermediate steps:")
-    # for step in response["intermediate_steps"]:
-    #     print(step)
-
     return response.get("output", "No response generated")
     
 
