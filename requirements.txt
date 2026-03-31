@@ -8,3 +8,4 @@ pymupdf
 sentence-transformers
 transformers
 torch
+langchain-openai

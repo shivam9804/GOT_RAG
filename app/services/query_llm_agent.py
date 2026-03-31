@@ -6,6 +6,10 @@ from langchain_classic.storage._lc_store import create_kv_docstore
 from langchain_classic.retrievers import ParentDocumentRetriever
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from sentence_transformers import CrossEncoder
+import configparser
+
+config = configparser.ConfigParser()
+config.read('config.cfg')
 
 # -----------------------------
 # Shared setuo
@@ -43,7 +47,12 @@ parent_retriever = ParentDocumentRetriever(
 )
 
 reranker = CrossEncoder("BAAI/bge-reranker-base")
-llm = ChatOllama(model="llama3.2:3b", temperature=0)
+# llm = ChatOllama(model="llama3.2:3b", temperature=0)
+llm = ChatOllama(
+    model="glm-5:cloud",
+    base_url=config.get('ollama', 'BASE_URL'),
+    temperature=0.0
+)
 
 # -----------------------------
 # 1. Retrieval loop

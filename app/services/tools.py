@@ -10,15 +10,29 @@ from app.services.query_llm_agent import (
 def retrieve_context_tool(query: str) -> str:
     """ Retrieve relevant context from the book A Game of Thrones for a given question"""
     result = retrieve_context(query, top_n=3)
-    res = evaluate_evidence(query, result["context"])
-    return res
+    return result['context']
 
-# @tool
-# def evaluate_evidence_tool(query: str, context: str) -> str:
-#     """Evaluate whether the retrieved context is sufficient to answer the question."""
-#     print(f"""evaluate_evidence_tool: {query}""", query)
-#     result = evaluate_evidence(query, context)
-#     return json.dumps(result)
+@tool
+def evaluate_evidence_tool(input_text: str) -> str:
+    """
+    Evaluate whether the retrieved context is enough to answer the question.
+    
+    Expected input format:
+    QUESTION: <question>
+    CONTEXT: <retrieved context>
+    """
+
+    try:
+        question_part = input_text.split("CONTEXT:")[0].replace("QUESTION:", "").strip()
+        context_part = input_text.split("CONTEXT:")[1].strip()
+    except IndexError:
+        return json.dumps({
+            "enough": False,
+            "reason": "Input format invalid. Expected QUESTION: ... CONTEXT: ..."
+        })
+
+    result = evaluate_evidence(question_part, context_part)
+    return json.dumps(result)
 
 @tool
 def rewrite_query_tool(query: str) -> str:

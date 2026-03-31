@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from app.schemas.query import QueryRequest, QueryResponse, AgentResponseData, AgentResponseCollection
+from app.schemas.query import QueryRequest, QueryResponse, AgentResponseData, AgentResponseCollection, AgentResponse
 from app.services.query_llm import query_llm
 from app.services.query_llm_parent_invoker import query_llm_parent
 from app.services.query_llm_agent import query_agent
@@ -31,18 +31,7 @@ def read_query(query: QueryRequest):
 
     return AgentResponseCollection(responses=response_dict)
 
-@router.post("/tools", response_model=AgentResponseCollection)
-def read_query(query: QueryRequest):
+@router.post("/tools")
+def read_query(query: QueryRequest, response_model=AgentResponse):
     result = invoke_agent(query.query)
-    
-    agent_response_data = AgentResponseData(
-        response=result.get("response", {}),
-        status=result.get("status", "Unknown"),
-        rounds=result.get("rounds", [])
-    )
-
-    response_dict = {
-        "agent_response": agent_response_data  # Use a meaningful string key
-    }
-
-    return AgentResponseCollection(responses=response_dict)
+    return AgentResponse(response=result)

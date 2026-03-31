@@ -12,3 +12,4 @@ got_parent_child_chroma
 got_parent_store
 got_knowledge_base_v2
 books/
+*.cfg
